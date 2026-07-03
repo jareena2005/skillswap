@@ -1,3 +1,5 @@
+import os
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated  # ✅ import IsAuthenticated
@@ -62,14 +64,15 @@ class GoogleLoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        token = request.data.get('token')
+        token = request.data.get('token') or request.data.get('credential')
         if not token:
             return Response({'error': 'Token is required'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Specify the CLIENT_ID of the app that accesses the backend:
-            # (In a real app, this should be in settings.py)
-            CLIENT_ID = "426740165458-kcl9a6o6cohdj0v6jid75ei8042eag2o.apps.googleusercontent.com"
+            CLIENT_ID = os.environ.get(
+                'GOOGLE_CLIENT_ID',
+                '426740165458-kcl9a6o6cohdj0v6jid75ei8042eag2o.apps.googleusercontent.com'
+            )
             idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
 
             # ID token is valid. Get the user's Google Account ID from the decoded token.

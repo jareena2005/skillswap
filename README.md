@@ -165,6 +165,40 @@ npm run dev
 - Backend: `http://127.0.0.1:8000/`
 - Frontend: Vite dev URL shown in terminal (typically `http://127.0.0.1:5173/`)
 
+## 🐳 Docker Setup
+
+This project includes a Docker Compose setup for local development.
+
+### Start with Docker
+
+```bash
+# from the repository root
+docker compose up -d --build
+```
+
+### Stop and remove containers
+
+```bash
+docker compose down --remove-orphans
+```
+
+### View logs
+
+```bash
+docker compose logs -f backend
+```
+
+### Run management commands in the backend container
+
+```bash
+docker compose exec backend python manage.py migrate
+```
+
+### Environment files
+
+The Django backend uses `backend/.env` and the repository root `.env` for configuration.
+Make sure `SECRET_KEY`, `DATABASE_URL`, and other service variables are set in those files.
+
 ## ⚙️ Configuration Notes
 
 - `backend/backend/settings.py` currently uses `DEBUG = True` and SQLite.

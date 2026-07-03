@@ -25,16 +25,24 @@ export default function Login({ setToken, setUser, onShowRegister }) {
   };
 
   const handleGoogleSuccess = async (credentialResponse) => {
+    console.debug("Google credential response:", credentialResponse);
+    const token = credentialResponse?.credential || credentialResponse?.token;
+
+    if (!token) {
+      setMessage("Google Login failed: credential is missing.");
+      return;
+    }
+
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/users/google-login/", {
-        token: credentialResponse.credential,
+        token,
       });
       setToken(response.data.access);
       setUser(response.data.user);
       setMessage("Google Login successful!");
     } catch (err) {
       console.error(err.response?.data || err.message);
-      setMessage("Google Login failed!");
+      setMessage("Google Login failed! Check console for details.");
     }
   };
 

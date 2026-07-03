@@ -30,7 +30,9 @@ load_dotenv(BASE_DIR.parent / 'backend' / '.env')
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-6zjyo#xj_k-6@n#akvnx)ia$bh&s+=b=#xcvgpbc_taj9trs&*")
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("SECRET_KEY environment variable is not set")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "True").lower() in ("1", "true", "yes", "on")
@@ -96,7 +98,7 @@ ASGI_APPLICATION = "backend.asgi.application"
 
 DATABASES = {
     "default": dj_database_url.parse(
-        os.environ.get("DATABASE_URL", "postgres://postgres:Jareena%402005@localhost:5432/skillswap"),
+        os.environ.get("DATABASE_URL", "postgres://postgres:postgres@localhost:5432/skillswap"),
         conn_max_age=600,
     )
 }
