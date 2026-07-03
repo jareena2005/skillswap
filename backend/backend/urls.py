@@ -71,5 +71,5 @@ if settings.DEBUG:
 # Catch-all: anything not matching api/ or admin/ serves the React app.
 # This MUST stay last in the list.
 urlpatterns += [
-    re_path(r'^(?!api/|admin/|media/).*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^(?!api/|admin/|media/|assets/).*$', TemplateView.as_view(template_name='index.html')),
 ]
