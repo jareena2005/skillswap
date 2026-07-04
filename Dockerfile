@@ -2,6 +2,13 @@
 FROM node:20-slim AS frontend-build
 
 WORKDIR /frontend
+
+# Accept build-time variables from Railway and expose them to Vite
+ARG VITE_API_URL
+ARG VITE_WS_URL
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_WS_URL=$VITE_WS_URL
+
 COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
