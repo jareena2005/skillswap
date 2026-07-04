@@ -21,10 +21,20 @@ export default function ChatRoomPage() {
       return;
     }
 
-    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const backendHost = import.meta.env.VITE_BACKEND_HOST || window.location.hostname;
-    const backendPort = import.meta.env.VITE_BACKEND_PORT || "8000";
-    const wsUrl = `${protocol}://${backendHost}:${backendPort}/ws/chat/${swapId}/`;
+    const wsUrlBase = import.meta.env.VITE_WS_URL || import.meta.env.VITE_API_URL;
+    let wsUrl;
+
+    if (wsUrlBase?.startsWith("ws://") || wsUrlBase?.startsWith("wss://")) {
+      wsUrl = `${wsUrlBase.replace(/\/$/, "")}/chat/${swapId}/`;
+    } else if (wsUrlBase) {
+      const protocol = wsUrlBase.startsWith("https") ? "wss" : "ws";
+      const host = wsUrlBase.replace(/^https?:\/\//, "").replace(/\/api\/?$/, "");
+      wsUrl = `${protocol}://${host}/ws/chat/${swapId}/`;
+    } else {
+      const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+      wsUrl = `${protocol}://${window.location.hostname}:8000/ws/chat/${swapId}/`;
+    }
+
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
 

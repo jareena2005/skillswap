@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 const categories = [
   { id: "programming", label: "Programming & Tech", emoji: "💻" },
@@ -151,8 +151,8 @@ export default function Teach({ token }) {
 
     setSaving(true);
     try {
-      await axios.post(
-        "http://127.0.0.1:8000/api/skills/me/full/",
+      await axiosInstance.post(
+        "/skills/me/full/",
         {
           offer: offerSkills.map((skill) => ({
             skill_name: skill.name,

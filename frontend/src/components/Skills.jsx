@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Skills({ token, mySkills, setMySkills, refreshKey }) {
   const [offerText, setOfferText] = useState("");
@@ -8,8 +8,8 @@ export default function Skills({ token, mySkills, setMySkills, refreshKey }) {
 
   const fetchSkills = async () => {
     try {
-      const res = await axios.get(
-        "http://127.0.0.1:8000/api/skills/me/",
+      const res = await axiosInstance.get(
+        "/skills/me/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -53,8 +53,8 @@ export default function Skills({ token, mySkills, setMySkills, refreshKey }) {
     }
 
     try {
-      await axios.post(
-        "http://127.0.0.1:8000/api/skills/me/",
+      await axiosInstance.post(
+        "/skills/me/",
         { offer, want },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -76,7 +76,7 @@ export default function Skills({ token, mySkills, setMySkills, refreshKey }) {
 
     try {
       // Backend DELETE endpoint needed for this
-      await axios.delete("http://127.0.0.1:8000/api/skills/me/delete/", {
+      await axiosInstance.delete("/skills/me/delete/", {
         data: { skill_name: skillName, type },
         headers: { Authorization: `Bearer ${token}` }
       });

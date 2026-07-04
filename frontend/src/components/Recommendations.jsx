@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Recommendations({ token, refreshKey }) {
   const [recommendations, setRecommendations] = useState([]);
 
   const fetchRecommendations = async () => {
     try {
-      const res = await axios.get(
-        "http://127.0.0.1:8000/api/swaps/recommendations/",
+      const res = await axiosInstance.get(
+        "/swaps/recommendations/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -26,8 +26,8 @@ export default function Recommendations({ token, refreshKey }) {
 
   const handleSendRequest = async (rec) => {
     try {
-      await axios.post(
-        "http://127.0.0.1:8000/api/swaps/create/",
+      await axiosInstance.post(
+        "/swaps/create/",
         {
           receiver: rec.user_id,
           skill_requested: rec.they_offer, // ✅ THEY give

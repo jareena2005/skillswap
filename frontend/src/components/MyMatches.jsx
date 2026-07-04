@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function MyMatches({ token, refreshKey }) {
     const [matches, setMatches] = useState([]);
@@ -13,8 +13,8 @@ export default function MyMatches({ token, refreshKey }) {
 
     const fetchMatches = async () => {
         try {
-            const res = await axios.get(
-                "http://127.0.0.1:8000/api/swaps/accepted/",
+            const res = await axiosInstance.get(
+                "/swaps/accepted/",
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
@@ -35,8 +35,8 @@ export default function MyMatches({ token, refreshKey }) {
     const handlePropose = async (swapId) => {
         setMessage("");
         try {
-            await axios.post(
-                "http://127.0.0.1:8000/api/swaps/session/propose/",
+            await axiosInstance.post(
+                "/swaps/session/propose/",
                 { swap_id: swapId, date, time, duration },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

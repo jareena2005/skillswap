@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function Profile({ token, onLogout }) {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ export default function Profile({ token, onLogout }) {
 
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/users/profile/", {
+        const response = await axiosInstance.get("/users/profile/", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -69,7 +69,7 @@ export default function Profile({ token, onLogout }) {
 
     const fetchTeachSkills = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/api/skills/me/full/", {
+        const response = await axiosInstance.get("/skills/me/full/", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -189,7 +189,7 @@ export default function Profile({ token, onLogout }) {
     }
 
     try {
-      const response = await axios.put("http://127.0.0.1:8000/api/users/profile/", formData, {
+      const response = await axiosInstance.put("/users/profile/", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data"

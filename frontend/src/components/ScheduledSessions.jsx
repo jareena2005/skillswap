@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function ScheduledSessions({ token, refreshKey }) {
     const [sessions, setSessions] = useState([]);
@@ -9,8 +9,8 @@ export default function ScheduledSessions({ token, refreshKey }) {
 
     const fetchScheduled = async () => {
         try {
-            const res = await axios.get(
-                "http://127.0.0.1:8000/api/swaps/session/scheduled/",
+            const res = await axiosInstance.get(
+                "/swaps/session/scheduled/",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setSessions(res.data);
@@ -25,8 +25,8 @@ export default function ScheduledSessions({ token, refreshKey }) {
 
     const handleComplete = async (sessionId) => {
         try {
-            await axios.post(
-                `http://127.0.0.1:8000/api/swaps/session/complete/${sessionId}/`,
+            await axiosInstance.post(
+                `/swaps/session/complete/${sessionId}/`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -38,8 +38,8 @@ export default function ScheduledSessions({ token, refreshKey }) {
 
     const handleSubmitRating = async (sessionId) => {
         try {
-            await axios.post(
-                `http://127.0.0.1:8000/api/swaps/session/rate/${sessionId}/`,
+            await axiosInstance.post(
+                `/swaps/session/rate/${sessionId}/`,
                 { rating, review },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

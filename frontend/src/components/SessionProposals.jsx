@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function SessionProposals({ token, refreshKey }) {
     const [sessions, setSessions] = useState([]);
 
     const fetchSessions = async () => {
         try {
-            const res = await axios.get(
-                "http://127.0.0.1:8000/api/swaps/session/incoming/",
+            const res = await axiosInstance.get(
+                "/swaps/session/incoming/",
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setSessions(res.data);
@@ -22,8 +22,8 @@ export default function SessionProposals({ token, refreshKey }) {
 
     const handleRespond = async (sessionId, action) => {
         try {
-            await axios.post(
-                `http://127.0.0.1:8000/api/swaps/session/respond/${sessionId}/`,
+            await axiosInstance.post(
+                `/swaps/session/respond/${sessionId}/`,
                 { action },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

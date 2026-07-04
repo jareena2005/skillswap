@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 import { GoogleLogin } from "@react-oauth/google";
 
 export default function Login({ setToken, setUser, onShowRegister }) {
@@ -10,7 +10,7 @@ export default function Login({ setToken, setUser, onShowRegister }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/token/", {
+      const response = await axiosInstance.post("/token/", {
         username,
         password,
       });
@@ -34,7 +34,7 @@ export default function Login({ setToken, setUser, onShowRegister }) {
     }
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/users/google-login/", {
+      const response = await axiosInstance.post("/users/google-login/", {
         token,
       });
       setToken(response.data.access);

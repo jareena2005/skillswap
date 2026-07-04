@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../api/axiosInstance";
 
 export default function IncomingRequests({ token, refreshKey }) {
   const [requests, setRequests] = useState([]);
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(
-        "http://127.0.0.1:8000/api/swaps/incoming/",
+      const res = await axiosInstance.get(
+        "/swaps/incoming/",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -27,8 +27,8 @@ export default function IncomingRequests({ token, refreshKey }) {
 
   const respond = async (id, action) => {
     try {
-      await axios.post(
-        `http://127.0.0.1:8000/api/swaps/respond/${id}/`,
+      await axiosInstance.post(
+        `/swaps/respond/${id}/`,
         { action },
         { headers: { Authorization: `Bearer ${token}` } }
       );
