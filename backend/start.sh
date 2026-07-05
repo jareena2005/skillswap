@@ -2,7 +2,7 @@
 set -e
 
 echo "Starting Celery worker in background..."
-celery -A backend worker --loglevel=info &
+celery -A backend worker --loglevel=info --pool=solo &
 
 echo "Running database migrations..."
 python manage.py migrate --noinput
