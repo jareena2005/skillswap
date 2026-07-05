@@ -224,11 +224,6 @@ Make sure `SECRET_KEY`, `DATABASE_URL`, and other service variables are set in t
 5. Accept swaps and schedule a session.
 6. Use chat to coordinate the session.
 
-## ✅ Notes
-
-- The project is configured for local development.
-- For production, secure `SECRET_KEY`, disable `DEBUG`, and set up a proper database and Redis host.
-- The Google OAuth client ID should be configured via environment variables.
 
 ---
 
